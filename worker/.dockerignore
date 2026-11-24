@@ -1,0 +1,13 @@
+# Fichiers de compilation locaux : ils sont recréés dans l'image
+bin/
+obj/
+
+# Secrets et configuration locale : ne jamais les envoyer dans l'image
+.env
+.env.*
+
+# Fichiers d'éditeur et de Git
+.vs/
+.vscode/
+.git/
+*.md
