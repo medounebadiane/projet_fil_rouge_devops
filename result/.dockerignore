@@ -1,1 +1,16 @@
+# Dépendances : réinstallées proprement dans l'image avec npm ci
 node_modules/
+npm-debug.log
+
+# Secrets et configuration locale : jamais dans l'image
+.env
+.env.*
+
+# Tests : ils ont leur propre image (tests/Dockerfile)
+tests/
+docker-compose.test.yml
+
+# Fichiers d'éditeur et de Git
+.git/
+.vscode/
+*.md
