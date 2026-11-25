@@ -1,0 +1,15 @@
+# Fichiers Python générés localement
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Secrets et configuration locale : jamais dans l'image
+.env
+.env.*
+
+# Fichiers d'éditeur et de Git
+.git/
+.vscode/
+.idea/
+*.md
