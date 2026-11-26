@@ -6,8 +6,11 @@ import random
 import json
 import logging
 
+# Configuration lue dans les variables d'environnement (valeurs par défaut entre guillemets)
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
+auteur = os.getenv('APP_AUTEUR', "MEDOUNE BADIANE")
+redis_host = os.getenv('REDIS_HOST', "redis")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
@@ -18,7 +21,7 @@ app.logger.setLevel(logging.INFO)
 
 def get_redis():
     if not hasattr(g, 'redis'):
-        g.redis = Redis(host="redis", db=0, socket_timeout=5)
+        g.redis = Redis(host=redis_host, db=0, socket_timeout=5)
     return g.redis
 
 @app.route("/", methods=['POST','GET'])
@@ -40,6 +43,7 @@ def hello():
         'index.html',
         option_a=option_a,
         option_b=option_b,
+        auteur=auteur,
         hostname=hostname,
         vote=vote,
     ))
