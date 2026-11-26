@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html ng-app="catsvsdogs">
+<html lang="fr" ng-app="catsvsdogs">
   <head>
     <meta charset="utf-8">
-    <title>Cats vs Dogs -- Result</title>
+    <title>Résultats · Application de vote</title>
     <base href="/index.html">
     <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
     <meta name="keywords" content="docker-compose, docker, stack">
-    <meta name="author" content="Docker">
+    <meta name="author" content="MEDOUNE BADIANE">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body ng-controller="statsCtrl" >
+    <header id="banner">
+      <h1>Bienvenue sur l'application de vote de <span>{{auteur}}</span></h1>
+      <p>Résultats en direct · Projet fil rouge DevOps · M2RT</p>
+    </header>
      <div id="background-stats">
        <div id="background-stats-1">
        </div><!--
@@ -32,7 +36,7 @@
       </div>
     </div>
     <div id="result">
-      <span ng-if="total == 0">No votes yet</span>
+      <span ng-if="total == 0">Aucun vote pour le moment</span>
       <span ng-if="total == 1">{{total}} vote</span>
       <span ng-if="total >= 2">{{total}} votes</span>
     </div>

@@ -4,7 +4,11 @@ var socket = io.connect();
 var bg1 = document.getElementById('background-stats-1');
 var bg2 = document.getElementById('background-stats-2');
 
-app.controller('statsCtrl', function($scope){
+app.controller('statsCtrl', function($scope, $http){
+  $scope.auteur = 'MEDOUNE BADIANE';
+  $http.get('/config').then(function (res) {
+    $scope.auteur = res.data.auteur;
+  });
   $scope.aPercent = 50;
   $scope.bPercent = 50;
 
