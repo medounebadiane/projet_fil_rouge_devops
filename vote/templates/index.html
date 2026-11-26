@@ -1,31 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>{{option_a}} vs {{option_b}}!</title>
+    <title>{{option_a}} vs {{option_b}} · Application de vote de {{auteur}}</title>
     <base href="/index.html">
-    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
-    <meta name="keywords" content="docker-compose, docker, stack">
-    <meta name="author" content="Tutum dev team">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="{{auteur}}">
     <link rel='stylesheet' href="{{ url_for('static',filename='stylesheets/style.css') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
   <body>
+    <header id="banner">
+      <h1>Bienvenue sur l'application de vote de <span>{{auteur}}</span></h1>
+      <p>Projet fil rouge DevOps · M2RT</p>
+    </header>
     <div id="content-container">
       <div id="content-container-center">
-        <h3>{{option_a}} vs {{option_b}}!</h3>
+        <h3>{{option_a}} vs {{option_b}} : à vous de voter !</h3>
         <form id="choice" name='form' method="POST" action="/">
           <button id="a" type="submit" name="vote" class="a" value="a">{{option_a}}</button>
           <button id="b" type="submit" name="vote" class="b" value="b">{{option_b}}</button>
         </form>
         <div id="tip">
-          (Tip: you can change your vote)
+          Astuce : vous pouvez changer votre vote à tout moment.
         </div>
         <div id="hostname">
-          Processed by container ID {{hostname}}
+          Vote traité par le conteneur {{hostname}}
         </div>
       </div>
     </div>
+    <footer id="footer">
+      Réalisé par {{auteur}} · Conteneurisé avec Docker Compose
+    </footer>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
