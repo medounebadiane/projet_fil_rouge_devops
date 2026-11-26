@@ -1,56 +1,70 @@
-# version is now using "compose spec"
-# v2 and v3 are now combined!
-# docker-compose v1.27+ required
+# Application de vote de MEDOUNE BADIANE - Projet fil rouge DevOps
+# Lancement : docker compose up --build
+# Configuration : copier .env.example en .env puis renseigner les valeurs
 
 services:
+  # Frontend 1 : page de vote (Python / Flask), accessible depuis le navigateur
   vote:
-    build: 
+    build:
       context: ./vote
-      target: dev
+      target: final
+    environment:
+      OPTION_A: ${OPTION_A:-Cats}
+      OPTION_B: ${OPTION_B:-Dogs}
+      APP_AUTEUR: ${APP_AUTEUR:-MEDOUNE BADIANE}
+      REDIS_HOST: redis
     depends_on:
       redis:
         condition: service_healthy
-    healthcheck: 
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 15s
       timeout: 5s
       retries: 3
       start_period: 10s
-    volumes:
-     - ./vote:/usr/local/app
     ports:
-      - "8080:80"
+      - "${VOTE_PORT:-8080}:80"
     networks:
       - front-tier
       - back-tier
 
+  # Frontend 2 : page des résultats (Node.js), accessible depuis le navigateur
   result:
     build: ./result
-    # use nodemon rather than node for local dev
-    entrypoint: nodemon --inspect=0.0.0.0 server.js
+    environment:
+      APP_AUTEUR: ${APP_AUTEUR:-MEDOUNE BADIANE}
+      POSTGRES_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definissez POSTGRES_PASSWORD dans le fichier .env}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
     depends_on:
       db:
-        condition: service_healthy 
-    volumes:
-      - ./result:/usr/local/app
+        condition: service_healthy
     ports:
-      - "8081:80"
-      - "127.0.0.1:9229:9229"
+      - "${RESULT_PORT:-8081}:80"
     networks:
       - front-tier
       - back-tier
 
+  # Backend : traite les votes de Redis vers PostgreSQL, sans port exposé
   worker:
     build:
       context: ./worker
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definissez POSTGRES_PASSWORD dans le fichier .env}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
     depends_on:
       redis:
-        condition: service_healthy 
+        condition: service_healthy
       db:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - back-tier
 
+  # File d'attente des votes, uniquement sur le réseau interne
   redis:
     image: redis:alpine
     volumes:
@@ -61,11 +75,13 @@ services:
     networks:
       - back-tier
 
+  # Base de données, uniquement sur le réseau interne, avec un volume pour la persistance
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Definissez POSTGRES_PASSWORD dans le fichier .env}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
     volumes:
       - "db-data:/var/lib/postgresql/data"
       - "./healthchecks:/healthchecks"
@@ -75,15 +91,13 @@ services:
     networks:
       - back-tier
 
-  # this service runs once to seed the database with votes
-  # it won't run unless you specify the "seed" profile
-  # docker compose --profile seed up -d
+  # Générateur de votes de test, lancé seulement avec : docker compose --profile seed up -d
   seed:
     build: ./seed-data
     profiles: ["seed"]
     depends_on:
       vote:
-        condition: service_healthy 
+        condition: service_healthy
     networks:
       - front-tier
     restart: "no"
