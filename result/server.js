@@ -1,4 +1,5 @@
 var express = require('express'),
+    path = require('path'),
     async = require('async'),
     { Pool } = require('pg'),
     cookieParser = require('cookie-parser'),
@@ -6,7 +7,13 @@ var express = require('express'),
     server = require('http').Server(app),
     io = require('socket.io')(server);
 
+// Configuration lue dans les variables d'environnement
 var port = process.env.PORT || 4000;
+var auteur = process.env.APP_AUTEUR || 'MEDOUNE BADIANE';
+var pgUser = process.env.POSTGRES_USER || 'postgres';
+var pgPassword = process.env.POSTGRES_PASSWORD || 'postgres';
+var pgHost = process.env.POSTGRES_HOST || 'db';
+var pgDb = process.env.POSTGRES_DB || 'postgres';
 
 io.on('connection', function (socket) {
 
@@ -18,7 +25,10 @@ io.on('connection', function (socket) {
 });
 
 var pool = new Pool({
-  connectionString: 'postgres://postgres:postgres@db/postgres'
+  user: pgUser,
+  password: pgPassword,
+  host: pgHost,
+  database: pgDb
 });
 
 async.retry(
@@ -65,6 +75,11 @@ function collectVotesFromResult(result) {
 
 app.use(cookieParser());
 app.use(express.urlencoded());
+// Le nom de l'auteur est envoyé à la page des résultats
+app.get('/config', function (req, res) {
+  res.json({ auteur: auteur });
+});
+
 app.use(express.static(__dirname + '/views'));
 
 app.get('/', function (req, res) {
