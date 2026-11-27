@@ -1,6 +1,27 @@
-*.pyc
-project.lock.json
+# --- Secrets : ne jamais publier ---
+# Le fichier .env contient les vrais mots de passe (voir .env.example pour le modèle)
+.env
+.env.*
+!.env.example
+
+# --- Fichiers générés par .NET (worker) ---
 bin/
 obj/
 .vs/
+project.lock.json
+
+# --- Fichiers générés par Node.js (result) ---
 node_modules/
+npm-debug.log*
+
+# --- Fichiers générés par Python (vote) ---
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# --- Éditeurs et systèmes ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
