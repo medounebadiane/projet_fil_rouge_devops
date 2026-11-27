@@ -180,3 +180,25 @@ button.b{
 #content-container-center{
   padding-top: 120px;
 }
+
+/* ---- Bouton vers la page des résultats (s'ouvre dans un nouvel onglet) ---- */
+#results-link{
+  display: block;
+  width: 330px;
+  max-width: 100%;
+  margin: 18px 0 0;
+  padding: 12px 0;
+  box-sizing: border-box;
+  border: 2px solid #1aaaf8;
+  border-radius: 8px;
+  color: #1aaaf8;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+#results-link:hover{
+  background-color: #1aaaf8;
+  color: #ffffff;
+}

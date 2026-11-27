@@ -11,6 +11,7 @@ option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 auteur = os.getenv('APP_AUTEUR', "MEDOUNE BADIANE")
 redis_host = os.getenv('REDIS_HOST', "redis")
+result_url = os.getenv('RESULT_URL', "http://localhost:8081")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
@@ -44,6 +45,7 @@ def hello():
         option_a=option_a,
         option_b=option_b,
         auteur=auteur,
+        result_url=result_url,
         hostname=hostname,
         vote=vote,
     ))
