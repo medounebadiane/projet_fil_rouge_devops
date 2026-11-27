@@ -202,3 +202,47 @@ button.b{
   background-color: #1aaaf8;
   color: #ffffff;
 }
+
+/* ---- Boutons de vote côte à côte, avec une icône au-dessus du nom ---- */
+#choice{
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 1em;
+}
+#choice button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 230px;
+  height: 230px;
+  margin: 10px 0;
+  padding: 0;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(37, 67, 86, 0.15);
+}
+.vote-icon{
+  width: 120px;
+  height: 120px;
+  margin-bottom: 14px;
+}
+.vote-label{
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+.vote-label i{
+  float: none;
+  padding: 0 0 0 8px;
+  margin: 0;
+}
+#tip{
+  text-align: center;
+}
+#results-link{
+  margin: 18px auto 0;
+}
+#content-container-center{
+  padding-top: 110px;
+}
