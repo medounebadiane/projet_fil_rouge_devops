@@ -13,6 +13,7 @@ services:
       OPTION_B: ${OPTION_B:-Dogs}
       APP_AUTEUR: ${APP_AUTEUR:-MEDOUNE BADIANE}
       REDIS_HOST: redis
+      RESULT_URL: ${RESULT_URL:-http://localhost:8081}
     depends_on:
       redis:
         condition: service_healthy
